@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./header/header.component";
 import { SidenavComponent } from "./sidenav/sidenav.component";
@@ -16,20 +16,33 @@ import { MatListModule } from '@angular/material/list';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from './auth-service.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, HeaderComponent, SidenavComponent,  
     MatSidenavModule,MatToolbarModule,MatMenuModule,MatIconModule, MatDividerModule,MatListModule,
-    FlexLayoutModule,MatFormFieldModule, MatInputModule],
+    FlexLayoutModule,MatFormFieldModule, MatInputModule,MatButtonModule,MatCardModule,HttpClientModule,FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent  {
+export class AppComponent implements OnInit  {
   title = 'Project';
   sideBarOpen=true;
   sideBarToggler(){
     this.sideBarOpen=!this.sideBarOpen;
+  }
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    // Check the user's auth status when the app starts
+    this.authService.checkAuthStatus();
   }
 }

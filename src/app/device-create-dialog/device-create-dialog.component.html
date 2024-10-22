@@ -1,0 +1,28 @@
+<div class="create-user">
+  <h3>New Device</h3>
+    <div class="device-form-container">
+        <form class="create-device" (ngSubmit)="onSubmit()">
+
+            <mat-form-field appearance="fill">
+                <mat-label>Device</mat-label>
+                <input matInput [(ngModel)]="device.devicename" name="devicename" required>
+            </mat-form-field>
+            <mat-form-field appearance="fill" >
+
+            <mat-label>IP</mat-label>
+                <input matInput [(ngModel)]="device.ipaddress" name="ipaddress" required>
+                </mat-form-field>
+            <mat-form-field appearance="fill" >
+
+            <mat-label>Designated Address</mat-label>
+                <input matInput type="email" [(ngModel)]="device.designatedaddress" name="designatedaddress" required>
+                </mat-form-field>
+
+            <button mat-raised-button class="button" color="primary" type="submit">Submit</button>
+        </form>
+    </div> 
+</div>
+
+
+
+

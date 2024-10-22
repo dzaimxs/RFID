@@ -1,1 +1,73 @@
-@import "../home/home.component.css";
+.page{
+    color: white;
+    padding: 0 1rem;
+    background: #f1f5f9;
+    .page__box{
+        min-height: 120px;
+        background:  #1e293b;
+        margin: 0 -1rem;
+        font-size: 36px;
+    }
+    .page__content{
+        min-height: calc(100vh - 178px);
+        border-radius: 10px;
+        margin-top: -2rem;
+        background: white;
+        color: black;
+        font-size: 2rem;
+        position:relative;
+        &.__data{
+            top: 10%;
+            left: 3%;
+            transform: none;
+            color: black;
+            min-height: 120px;
+            position: relative;
+            text-align: left;
+            width: 94%;
+        
+        }
+    }    
+}
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Space between fields */
+    margin-bottom: 20px; /* Space below the filters */
+}
+        /* Align buttons in the actions column */
+.mat-cell {
+    display: flex;
+    align-items: center; /* Vertically center align */
+}
+
+        /* Style for the buttons */
+button {
+    margin-right: 8px; /* Add space between buttons */
+}
+
+button:last-child {
+    margin-right: 0; /* Remove margin from the last button */
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-start; /* Aligns the button to the left */
+    margin-bottom: 1rem; /* Space between the button and the table */
+}
+        
+.button-container button {           
+    padding: 0.25rem; 
+    font-size: 0.875rem
+}
+
+.search-field-container {
+    margin-left: auto; /* Pushes the search field to the right */   
+    height: 20px;
+    margin-bottom: 2rem; /* Space between the button and the table */
+    
+}
+
+
+
+

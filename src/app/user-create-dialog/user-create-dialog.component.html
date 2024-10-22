@@ -1,0 +1,22 @@
+<div class="create-user">
+<h3>New User</h3>
+    <div class="device-form-container">
+        <form class="create-device" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>First Name</mat-label>
+            <input matInput [(ngModel)]="user.firstname" name="firstname" required>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Last Name</mat-label>
+            <input matInput [(ngModel)]="user.lastname" name="lastname" required>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" [(ngModel)]="user.email" name="email" required>
+        </mat-form-field>
+        <button mat-raised-button class="button" color="primary" type="submit">Submit</button>
+        </form>
+
+    </div>   
+</div>
+

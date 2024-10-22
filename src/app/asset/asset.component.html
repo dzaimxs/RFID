@@ -1,8 +1,72 @@
 <div class="container-fluid page">
     <div class="page__box p-3 mt-2">Asset Management</div>
     <div class="page__content shadow p-3 position-relative">
-        <div class="page__content __data position-absolute text-center">
-        Assets Go Here
+        <div class="page__content __data position-absolute text-center">       
+      
+          <div class="button-container">
+            <button mat-raised-button color="primary" (click)="openCreateAssetDialog()">Add Asset</button>
+            
+            <button mat-raised-button color="accent" (click)="triggerFileInput()">Import CSV</button>
+            <input #csvFileInput type="file" (change)="onFileChange($event)" accept=".csv" style="display: none" />
+            
+                <!-- Search input for global search -->
+                <div class="search-field-container">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Search</mat-label>
+                    <input matInput (keyup)="applySearch($event)" placeholder="Search" />
+                  </mat-form-field>
+                </div>                 
+          </div>  
+        
+          <table mat-table [dataSource]="assets" matSort class="mat-elevation-z8">
+   
+              <ng-container matColumnDef="Id">
+                <th mat-header-cell *matHeaderCellDef> Id </th>
+                <td mat-cell *matCellDef="let asset">{{ asset.idassets }}</td>
+              </ng-container>         
+
+                <!--Column -->
+                <ng-container matColumnDef="rfidserialnr">
+                  <th mat-header-cell *matHeaderCellDef> Serial Number </th>
+                  <td mat-cell *matCellDef="let asset">{{ asset.rfidserialnr }}</td>
+                </ng-container>
+            
+                <!--  Column -->
+                <ng-container matColumnDef="itemtypename">
+                  <th mat-header-cell *matHeaderCellDef> Asset Type </th>
+                  <td mat-cell *matCellDef="let asset">{{ asset.itemtypename }}</td>
+                </ng-container>
+            
+                <!-- Column -->
+                <ng-container matColumnDef="dateadded">
+                  <th mat-header-cell *matHeaderCellDef> DateTime </th>
+                  <td mat-cell *matCellDef="let asset">{{ asset.dateadded }}</td>
+                </ng-container>
+            
+                <!-- Column -->
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef> Status </th>
+                  <td mat-cell *matCellDef="let asset">{{ asset.status }}</td>
+                </ng-container>
+            
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef> Actions </th>
+                  <td mat-cell *matCellDef="let asset">
+                      <button mat-button (click)="openEditAssetDialog(asset)">Edit</button>
+                      <button mat-button color="warn" (click)="openDeleteAssetDialog(asset.idassets) ">Delete</button>
+                      <button mat-button (click)="enableAsset(asset.idassets)">Enable</button>
+                      <button mat-button (click)="disableAsset(asset.idassets)">Disable</button>
+                  </td>
+              </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="['rfidserialnr', 'itemtypename', 'dateadded', 'status','actions']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['rfidserialnr', 'itemtypename', 'dateadded', 'status','actions'];"></tr>
+              </table>
+                <!-- Pagination -->
+                <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25]" aria-label="Select page">
+                </mat-paginator>
+
         </div>
     </div>
 </div>

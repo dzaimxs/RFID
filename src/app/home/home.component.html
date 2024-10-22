@@ -2,7 +2,104 @@
     <div class="page__box p-3 mt-2">Home</div>
     <div class="page__content shadow p-3 position-relative">
         <div class="page__content __data position-absolute text-center">
-        Home Content Goes Here
+            <div>
+
+           
+                 <!-- Filters -->
+                 <div class="filter-container">
+                    <mat-form-field appearance="fill">
+                        <mat-label>From Date</mat-label>
+                        <input matInput [matDatepicker]="fromPicker" [(ngModel)]="filter.fromDate" (dateChange)="applyFilters()">
+                        <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #fromPicker></mat-datepicker>                        
+                    </mat-form-field>
+                
+                    <mat-form-field appearance="fill">
+                        <mat-label>To Date</mat-label>
+                        <input matInput [matDatepicker]="toPicker" [(ngModel)]="filter.toDate" (dateChange)="applyFilters()">
+                        <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #toPicker></mat-datepicker>                       
+                    </mat-form-field>
+                               
+          <!-- Item Type Filter (Checkbox Dropdown) -->
+          <mat-form-field appearance="fill">
+            <mat-label>Type</mat-label>
+            <mat-select [(ngModel)]="filter.itemTypes" (selectionChange)="applyFilters()" multiple>
+              <mat-option *ngFor="let itemType of itemTypes" [value]="itemType.name">{{ itemType.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Category Filter (Checkbox Dropdown) -->
+          <mat-form-field appearance="fill">
+            <mat-label>Category</mat-label>
+            <mat-select [(ngModel)]="filter.categories" (selectionChange)="applyFilters()" multiple>
+              <mat-option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Location Filter (Checkbox Dropdown) -->
+          <mat-form-field appearance="fill">
+            <mat-label>Location</mat-label>
+            <mat-select [(ngModel)]="filter.locations" (selectionChange)="applyFilters()" multiple>
+              <mat-option *ngFor="let location of locations" [value]="location.name">{{ location.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+                    
+                <!-- Search input for global search -->
+                <div class="search-field-container">
+                  <mat-form-field appearance="outline">
+                      <mat-label>Search</mat-label>
+                      <input matInput (keyup)="applySearch($event)" placeholder="Search" />
+                  </mat-form-field>
+                </div>
+
+                  </div>
+
+
+
+                <table mat-table [dataSource]="filteredTransactions" class="mat-elevation-z8">
+                  
+                  <!-- Transaction ID Column -->
+                  <ng-container matColumnDef="idassettransactions">
+                    <th mat-header-cell *matHeaderCellDef> Transaction ID </th>
+                    <td mat-cell *matCellDef="let transaction">{{ transaction.idassettransactions }}</td>
+                  </ng-container>
+              
+                  <!-- Transaction Date Column -->
+                  <ng-container matColumnDef="transactiondatetime">
+                    <th mat-header-cell *matHeaderCellDef> DateTime </th>
+                    <td mat-cell *matCellDef="let transaction">{{ transaction.transactiondatetime }}</td>
+                  </ng-container>
+              
+                  <!-- Item Type Column -->
+                  <ng-container matColumnDef="itemtypename">
+                    <th mat-header-cell *matHeaderCellDef> Type </th>
+                    <td mat-cell *matCellDef="let transaction">{{ transaction.itemtypename }}</td>
+                  </ng-container>
+              
+                  <!-- Category Name Column -->
+                  <ng-container matColumnDef="categoryname">
+                    <th mat-header-cell *matHeaderCellDef> Category </th>
+                    <td mat-cell *matCellDef="let transaction">{{ transaction.categoryname }}</td>
+                  </ng-container>
+              
+                  <!-- Location Name Column -->
+                  <ng-container matColumnDef="locationname">
+                    <th mat-header-cell *matHeaderCellDef> New Location </th>
+                    <td mat-cell *matCellDef="let transaction">{{ transaction.locationname }}</td>
+                  </ng-container>
+              
+                  <tr mat-header-row *matHeaderRowDef="['idassettransactions', 'transactiondatetime', 'itemtypename', 'categoryname', 'locationname']"></tr>
+                  <tr mat-row *matRowDef="let row; columns: ['idassettransactions', 'transactiondatetime', 'itemtypename', 'categoryname', 'locationname'];"></tr>
+                </table>
+
+
+                <!-- Pagination -->
+                <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25]" aria-label="Select page">
+                </mat-paginator>
+              </div>
         </div>
     </div>
 </div>

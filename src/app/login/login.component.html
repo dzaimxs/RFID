@@ -1,1 +1,59 @@
-<p>login works!</p>
+<div fxLayoutAlign="center center" fxFlexFill class="main-div">
+    <mat-card fxFlex="25">
+      <mat-toolbar>Login Page</mat-toolbar>
+      <form (ngSubmit)="onLogin()" #loginForm="ngForm" fxLayoutAlign="stretch" fxLayout="column" class="login-form">
+        <!-- Email field -->
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            name="email"
+            [(ngModel)]="loginObj.email"
+            placeholder="Email"
+            required
+            #email="ngModel"  
+            [pattern]="emailPattern" 
+          />
+          <mat-error *ngIf="email.touched && email.invalid">
+            <ng-container *ngIf="email.errors?.['required']">Email is required.</ng-container>
+            <ng-container *ngIf="email.errors?.['pattern']">Please enter a valid email address.</ng-container>
+          </mat-error>
+        </mat-form-field>
+        
+        <!-- Password field -->
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input
+            matInput
+            [type]="isPasswordVisible ? 'text' : 'password'"
+            name="passwordhash"
+            [(ngModel)]="loginObj.passwordhash"
+            placeholder="Password"
+            required
+            />
+            <mat-error *ngIf="loginForm.controls['passwordhash']?.invalid && loginForm.controls['passwordhash']?.touched">
+            Password is required.
+            </mat-error>
+            
+            <!-- Password visibility toggle aligned to the right -->
+            <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
+            <mat-icon>{{ isPasswordVisible ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+        </mat-form-field>
+  
+        <!-- Submit button -->
+        <div class="centered">
+          <button
+            mat-raised-button
+            style="width: 100px;"
+            class="mt-5"
+            type="submit"
+            [disabled]="loginForm.invalid"
+          >
+            Login
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
