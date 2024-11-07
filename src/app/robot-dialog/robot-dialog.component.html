@@ -1,0 +1,38 @@
+<div class="create-user" style="border-radius: 1px;">
+    <div class="header-container">
+        <h3 style="display: inline-block; margin-right: 8px;">Device Details</h3>
+        <mat-icon (click)="closeDialog()" >close</mat-icon>
+    </div>
+    <div class="device-form-container">
+        <form class="create-device">
+
+            <mat-dialog-content >
+                <table mat-table [dataSource]="data.connectionhistory" class="mat-elevation-z8">
+                    <ng-container matColumnDef="devicename">
+                        <th mat-header-cell *matHeaderCellDef> Device </th>
+                        <td mat-cell *matCellDef="let robotdata">{{ robotdata.devicename }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ipaddress">
+                        <th mat-header-cell *matHeaderCellDef> IP </th>
+                        <td mat-cell *matCellDef="let robotdata">{{ robotdata.ipaddress }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="designatedaddress">
+                        <th mat-header-cell *matHeaderCellDef> Address </th>
+                        <td mat-cell *matCellDef="let robotdata">{{ robotdata.designatedaddress }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="lastconnectiondatetime">
+                        <th mat-header-cell *matHeaderCellDef> Last Connection Status </th>
+                        <td mat-cell *matCellDef="let robotdata">{{ robotdata.lastconnectiondatetime }}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="['devicename', 'ipaddress', 'designatedaddress','lastconnectiondatetime']"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['devicename', 'ipaddress', 'designatedaddress','lastconnectiondatetime'];"></tr>
+                </table>
+            </mat-dialog-content>
+
+        </form>
+    </div>
+</div>

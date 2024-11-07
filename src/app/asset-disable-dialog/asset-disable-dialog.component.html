@@ -1,1 +1,23 @@
-<p>asset-disable-dialog works!</p>
+<div class="create-user" style="border-radius: 1px;">
+    <h3>Disable Asset</h3>
+    <div class="device-form-container">
+      <form class="create-device" (ngSubmit)="onSubmit()">
+  
+        <mat-form-field appearance="fill">
+            <mat-label>Select reason:</mat-label>
+            <mat-select [(ngModel)]="selectedReasonId" name="selectedReason" required>
+              <mat-option *ngFor="let reason of data.reasons" [value]="reason.idassetstatusreasons">
+                {{ reason.reasondescription }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+           
+          <mat-form-field appearance="fill">
+            <mat-label>Comments:</mat-label>
+            <input matInput [(ngModel)]="customReason" name="customReason" placeholder="Custom reason" />
+          </mat-form-field> 
+  
+        <button mat-raised-button class="button" color="primary" type="submit">Submit</button>
+      </form>
+    </div> 
+  </div>

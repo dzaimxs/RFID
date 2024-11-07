@@ -1,0 +1,105 @@
+<div class="container-fluid page">
+    <div class="page__box p-3 mt-2">Configurations</div>
+    <div class="page__content shadow p-3 position-relative">
+        <div class="page__content __data position-absolute text-center">
+       
+               
+            <mat-tab-group animationDuration="500ms">
+             
+                <mat-tab label="Item Types">
+                    <table mat-table [dataSource]="types" class="mat-elevation-z8">
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef> ID </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                        </ng-container>
+                
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef> Description </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="categname">
+                            <th mat-header-cell *matHeaderCellDef> Category </th>
+                            <td mat-cell *matCellDef="let element"> {{element.categname}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef>  </th>
+                            <td mat-cell *matCellDef="let element" class="align-right">
+                                <button mat-icon-button (click)="openAddTypeDialog(element)" aria-label="Add"><mat-icon>add</mat-icon></button>                          
+                                <button mat-icon-button (click)="openEditTypeDialog(element)" aria-label="Edit"><mat-icon>edit</mat-icon></button>
+                                <button mat-icon-button (click)="openDeleteTypeDialog(element.id)" aria-label="Delete"><mat-icon>delete</mat-icon></button>   
+  
+                            </td>
+                        </ng-container>
+                
+                        <tr mat-header-row *matHeaderRowDef="typescolumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: typescolumns;"></tr>
+                    </table>
+                </mat-tab>
+
+                <mat-tab label="Categories">
+              
+                <table mat-table [dataSource]="categories" class="mat-elevation-z8">
+                           
+                    <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef> ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Description </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Actions </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button (click)="openAddCategoryDialog()" aria-label="Add"><mat-icon>add</mat-icon></button>                          
+                            <button mat-icon-button (click)="openEditCategoryDialog(element)" aria-label="Edit"><mat-icon>edit</mat-icon></button>
+                            <button mat-icon-button (click)="openDeleteCategoryDialog(element.id)" aria-label="Delete"><mat-icon>delete</mat-icon></button>         
+                        </td>
+                    </ng-container> 
+
+                    <tr mat-header-row *matHeaderRowDef="categorycolumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: categorycolumns;"></tr>
+                </table>
+                </mat-tab>
+
+
+                <mat-tab label="Locations">
+                    <table mat-table [dataSource]="locations" class="mat-elevation-z8">
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef> ID </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                        </ng-container>
+                
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef> Description </th>
+                            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        </ng-container>
+                
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef> Actions </th>
+                            <td mat-cell *matCellDef="let element">  
+                                <button mat-icon-button (click)="openAddLocationDialog()" aria-label="Add" matTooltip="Add"><mat-icon>add</mat-icon></button>                          
+                                <button mat-icon-button (click)="openEditLocationDialog(element)" aria-label="Edit" matTooltip="Edit"><mat-icon>edit</mat-icon></button>
+                                <button mat-icon-button (click)="openDeleteLocationDialog(element.id)" aria-label="Delete" matTooltip="Delete"><mat-icon>delete</mat-icon></button>                                
+  
+                            </td>
+                        </ng-container>
+                
+                        <tr mat-header-row *matHeaderRowDef="locationscolumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: locationscolumns;"></tr>
+                    </table>
+                </mat-tab>
+            
+
+            </mat-tab-group>
+  
+
+        
+        </div>
+    </div>
+</div>

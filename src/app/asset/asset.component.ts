@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild,ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, OnDestroy } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { MatFormFieldControl, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
@@ -14,34 +14,78 @@ import { AssetDeleteDialogComponent } from '../asset-delete-dialog/asset-delete-
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import Papa from 'papaparse';
+import { AssetDisableDialogComponent } from '../asset-disable-dialog/asset-disable-dialog.component';
+import { DisableAssetModel } from '../asset-disable-dialog/DisableAssetModel';
+import { AuthService } from '../auth-service.service';
+import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
 
 interface AssetModel{
   idassets:number,
   rfidserialnr: string;
   itemtypename: string;
+  categoryname:string;
   dateadded: string;
   status: string;
+
 }
 
 @Component({
   selector: 'app-asset',
   standalone: true,
-  imports: [MatTableModule, HttpClientModule,MatTableModule,FormsModule,MatFormFieldModule,AssetCreateDialogComponent,MatLabel,MatInputModule,MatPaginator,MatPaginatorModule,MatFormFieldModule,MatInputModule],
+  imports: [MatTableModule, MatIcon, MatTooltip,HttpClientModule,MatTableModule,FormsModule,MatFormFieldModule,AssetCreateDialogComponent,MatLabel,MatInputModule,MatPaginator,MatPaginatorModule,MatFormFieldModule,MatInputModule,CommonModule],
   templateUrl: './asset.component.html',
   styleUrl: './asset.component.css'
 })
 
-export class AssetComponent implements OnInit{
+export class AssetComponent implements OnInit, OnDestroy {
+
+  userEmail: string | null = null;
+  emailSubscription: Subscription | null = null;;
 
   assets: MatTableDataSource<AssetModel> = new MatTableDataSource<AssetModel>([]);
+
+  isInputVisible: boolean = false;
 
   @ViewChild('csvFileInput') csvFileInput!: ElementRef; //ref input file
   @ViewChild(MatPaginator) paginator!: MatPaginator; // For pagination
 
-  constructor(private http: HttpClient, private dialog: MatDialog) {}
+  constructor(private http: HttpClient, private dialog: MatDialog,private authService: AuthService) {}
+
+
+  displayedColumns: string[] = ['rfidserialnr', 'itemtypename', 'categoryname','dateadded', 'status'];
+
+  getDisplayedColumns(): string[] {
+    if (this.shouldShowActions()) {
+      return [...this.displayedColumns, 'actions'];
+    }
+    return this.displayedColumns;
+  }
+
+
+  shouldShowActions(): boolean {
+    const role = this.authService.getRole();
+    return role !== 'User'; // Hide actions if the role is 'User'
+  }
+
 
   ngOnInit(): void{
+
+    this.emailSubscription = this.authService.userEmail$.subscribe(email => {
+      this.userEmail = email; // Get the email from AuthService
+    });
+
     this.loadAssets();
+    this.fetchAssetReasons();
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe to avoid memory leaks
+    if (this.emailSubscription) {
+      this.emailSubscription.unsubscribe();
+    }
   }
 
   loadAssets(): void{
@@ -61,13 +105,13 @@ export class AssetComponent implements OnInit{
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.createAsset(result); 
+        this.createAsset(result.rfidserialnr,result.itemtypename); 
       }
     });
   }
 
-  createAsset(asset: CreateAssetModel): void {
-    this.http.post<AssetModel>('http://localhost:5016/api/Asset', asset).subscribe(
+  createAsset(rfidserialnr: string, itemtypename: number): void {
+    this.http.post<any>(`http://localhost:5016/api/Asset/${rfidserialnr}/${itemtypename}/Enabled`, null).subscribe(
       response => {
         this.loadAssets(); // Refresh the  list
       },
@@ -76,6 +120,7 @@ export class AssetComponent implements OnInit{
       }
     );
   }
+
 
  // Method to open the edit dialog
  openEditAssetDialog(asset: AssetModel): void {
@@ -125,28 +170,70 @@ deleteAsset(id: number): void {
   );
 }
 
-enableAsset(id: number): void {
-  this.http.put(`http://localhost:5016/api/Asset/enable/${id}`, {}).subscribe(
-      () => {
+
+//disble asset
+reasons: DisableAssetModel[] = [];
+
+fetchAssetReasons(): void {
+  this.http.get<DisableAssetModel[]>('http://localhost:5016/api/Asset/AssetReasons').subscribe(
+      (data) => {
+          this.reasons = data;
+      },
+      (error) => {
+          console.error('Error fetching reasons', error);
+      }
+  );
+}
+
+openDisableAssetDialog(assetId: number): void {
+  const dialogRef = this.dialog.open(AssetDisableDialogComponent, {
+      data: { reasons: this.reasons }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.disableAsset(assetId, result.reasonId,result.customReason);
+    }
+  });
+}
+
+disableAsset(assetId: number, reasonId: number, customReason: string): void {
+  const requestBody = {
+    Id: assetId,
+    ReasonId: reasonId,
+    CustomReason: customReason,
+    UserEmail: this.userEmail
+  };
+
+  this.http.put(`http://localhost:5016/api/Asset/toggleStatus`, requestBody).subscribe(
+      response => {
+        console.log('Enable response:', response);
           this.loadAssets();
       },
       error => {
-          console.error('Error enabling asset', error);
+          console.error(`Error disabling asset`, error);
       }
   );
 }
 
-disableAsset(id: number): void {
-  this.http.put(`http://localhost:5016/api/Asset/disable/${id}`, {}).subscribe(
-      () => {
-          this.loadAssets(); 
+enableAsset(assetId: number): void {
+  const requestBody = {
+      Id: assetId,
+      ReasonId: null,
+      CustomReason:null
+  };
+
+  this.http.put(`http://localhost:5016/api/Asset/toggleStatus`, requestBody).subscribe(
+      response => {
+          console.log('Enable response:', response);
+          this.loadAssets();
       },
       error => {
-          console.error('Error disabling asset', error);
+          console.error(`Error toggling asset to enabled`, error.error);
       }
   );
 }
-
+//end
 
 applySearch(event: Event): void {
   const filterValue = (event.target as HTMLInputElement).value;

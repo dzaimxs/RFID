@@ -1,0 +1,12 @@
+<div class="create-user" style="border-radius: 1px;">
+    <h3>Add</h3>
+    <div class="device-form-container">
+        <form class="create-device" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="fill">
+                <mat-label>Description</mat-label>
+                <input matInput type="text" [(ngModel)]="user.description" name="description" required>
+            </mat-form-field>
+            <button mat-raised-button class="button" color="primary" type="submit">Submit</button>
+        </form>
+    </div>   
+</div>

@@ -1,50 +1,62 @@
-.page{
-    color: white;
+
+:root {
+    --primary-color-1: #ffffff; /* Default colors */
+    --primary-color-2: #ffffff;
+    --primary-color-3: #ffffff;
+}
+
+.page {
+    color: var(--primary-color-3);
     padding: 0 1rem;
-    background: #f1f5f9;
-    .page__box{
-        min-height: 120px;
-        background:  #1e293b;
+    background: var(--primary-color-3);
+    
+    .page__box {
+
+        background: var(--primary-color-1);
         margin: 0 -1rem;
-        font-size: 36px;
+        font-size: 25px;
     }
-    .page__content{
-        min-height: calc(100vh - 178px);
+    
+    .page__content {
+        min-height: calc(100vh - 120px); /* Adjust height to show more table */
         border-radius: 10px;
-        margin-top: -2rem;
-        background: white;
-        color: black;
+        margin-top: -1rem; /* Reduce margin to bring content up */
+        background: var(--primary-color-3);
+        color: var(--primary-color-1);
         font-size: 2rem;
-        position:relative;
-        &.__data{
-            top: 10%;
+        position: absolute;
+        
+        &.__data {
+            top: 3%; /* Adjust position upwards */
             left: 3%;
             transform: none;
-            color: black;
+            color: var(--primary-color-1);
             min-height: 120px;
-            position: relative;
+            position: absolute;
             text-align: left;
             width: 94%;
-        
         }
     }    
 }
-.filter-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem; /* Space between fields */
-    margin-bottom: 20px; /* Space below the filters */
-}
-        /* Align buttons in the actions column */
+
+
+
+
+/* Align buttons in the actions column */
 .mat-cell {
     display: flex;
     align-items: center; /* Vertically center align */
+    
 }
 
-        /* Style for the buttons */
+/* Style for the buttons */
 button {
     margin-right: 8px; /* Add space between buttons */
+    border: none;
+    color: var(--primary-color-1);
+    
 }
+
 
 button:last-child {
     margin-right: 0; /* Remove margin from the last button */
@@ -53,15 +65,99 @@ button:last-child {
 .button-container {
     display: flex;
     justify-content: flex-start; /* Aligns the button to the left */
-    margin-bottom: 1rem; /* Space between the button and the table */
+    margin-bottom: 0; /* Reduce space between the button and the table */
 }
-        
+
 .button-container button {           
-    padding: 0.25rem; 
-    font-size: 0.875rem
+    padding: 0rem; 
+    font-size: 0.875rem;
 }
 
 .search-field-container {
     margin-left: auto; /* Pushes the search field to the right */
+    display: flex;
+    justify-content: flex-end;
 }
+
+
+
+.mat-mdc-header-row {
+    font-weight: bold;
+    color: var(--primary-color-2);
+}
+
+button.clear-filters-button {
+    color: var(--primary-color-2) !important; /* Override any other styles */
+    font-size: xx-small;
+  
+}
+.page__box p-3 mt-2{
+    padding-top: 0%;
+    margin-top: 0%;
+}
+/* Styles for the nested table */
+.expansion-detail {
+    margin-top: 10px; /* Spacing above the nested table */
+    background-color: var(--primary-color-3); /* Light background for better contrast */
+    border: 1px solid var(--primary-color-2); /* Border around the nested table */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px; /* Padding inside the nested table container */
+  }
+  
+  /* Nested table styles */
+  table.mat-elevation-z8 {
+    width: 100%; /* Full width */
+    border-collapse: collapse; /* Collapse borders */
+  }
+  
+  /* Styles for nested table headers */
+  table.mat-elevation-z8 th {
+    background-color: var(--primary-color-3); /* Slightly darker background */
+    font-weight: bold; /* Bold text */
+    padding: 6px; /* Padding for nested table headers */
+  }
+  
+  /* Styles for nested table cells */
+  table.mat-elevation-z8 td {
+    padding: 6px; /* Padding for nested table cells */
+    border-top: 1px solid var(--primary-color-3); /* Light border above cells */
+  }
+  .date-filter-menu {
+    padding: 15px; /* Increased padding for better spacing */
+    margin-top: 1.5 rem; /* Slightly more space above */
+    background-color: var(--primary-color-3); /* White background for contrast */
+    border-radius: 8px; /* Rounded corners */
+    
+    display: flex; /* Use flex for layout */
+    flex-direction: column; /* Stack items vertically */
+    gap: 10px; /* Space between items */
+}
+.link-button {
+    
+    font-style: italic;
+    font-size: small;
+    background: none; /* Remove background */
+    padding: 0; /* Remove padding to make it look like a link */
+    border: none; /* Remove border */
+    cursor: pointer; /* Change cursor to pointer */
+}
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.clear-filters-container {
+    flex: 1;
+    text-align: center;
+}
+
+.green {
+    color: green; /* Change the color to green for the icon */
+  }
+  
+  .red {
+    color: red; /* Change the color to red for the icon */
+  }
 

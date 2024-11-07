@@ -12,6 +12,10 @@ import { DeviceUpdateDialogComponent } from '../device-update-dialog/device-upda
 import { DeviceDeleteDialogComponent } from '../device-delete-dialog/device-delete-dialog.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../auth-service.service';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 
 
 interface DeviceModel{
@@ -27,7 +31,7 @@ interface DeviceModel{
 @Component({
   selector: 'app-device',
   standalone: true,
-  imports: [MatTableModule, HttpClientModule,MatTableModule,FormsModule,MatFormFieldModule,DeviceCreateDialogComponent,MatPaginator,MatPaginatorModule,MatInputModule],
+  imports: [MatTableModule, MatTooltip,MatIcon,HttpClientModule,MatTableModule,FormsModule,MatFormFieldModule,DeviceCreateDialogComponent,MatPaginator,MatPaginatorModule,MatInputModule,CommonModule],
   templateUrl: './device.component.html',
   styleUrl: './device.component.css'
 })
@@ -35,9 +39,26 @@ export class DeviceComponent implements OnInit{
 
   devices: MatTableDataSource<DeviceModel> = new MatTableDataSource<DeviceModel>([]);
 
+ isInputVisible:boolean = false;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator; // For pagination
 
-  constructor(private http: HttpClient, private dialog: MatDialog) {}
+  constructor(private http: HttpClient, private dialog: MatDialog,private authService: AuthService) {}
+
+  displayedColumns: string[] = ['devicename', 'ipaddress', 'designatedaddress', 'dateadded', 'status'];
+
+  getDisplayedColumns(): string[] {
+    if (this.shouldShowActions()) {
+      return [...this.displayedColumns, 'actions'];
+    }
+    return this.displayedColumns;
+  }
+
+
+  shouldShowActions(): boolean {
+    const role = this.authService.getRole();
+    return role !== 'User'; // Hide actions if the role is 'User'
+  }
 
   ngOnInit(): void{
     this.loadDevices();

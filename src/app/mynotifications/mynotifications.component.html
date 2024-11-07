@@ -1,0 +1,21 @@
+  <div>
+    <h3>Subscribe</h3>
+    <h5>Select the notifications you want to subscribe to:</h5>
+</div>
+<div>
+  <!-- Asset Status Notification Subscription -->
+<div>
+    <mat-label>Asset Status Notifications</mat-label>
+    <h5>Follow the status of assets and receive notifications when assets are marked as damaged, repair or discontinued use.</h5>
+    <button (click)="toggleAssetStatus()"> {{ subscribeToAssetStatus ? 'Unsubscribe' : 'Subscribe' }}</button>
+</div>
+<div>
+  <!-- Asset Movement Notification Subscription -->
+
+    <mat-label>Asset Movement Notifications</mat-label>   
+    <h5>Follow assets and receive notifications when they move between locations.</h5>
+    <button (click)="toggleAssetMovement()"> {{ subscribeToAssetMovement ? 'Unsubscribe' : 'Subscribe' }}</button>
+</div>
+</div>
+
+

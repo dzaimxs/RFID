@@ -30,7 +30,7 @@
             name="passwordhash"
             [(ngModel)]="loginObj.passwordhash"
             placeholder="Password"
-            required
+            
             />
             <mat-error *ngIf="loginForm.controls['passwordhash']?.invalid && loginForm.controls['passwordhash']?.touched">
             Password is required.

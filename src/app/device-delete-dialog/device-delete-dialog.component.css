@@ -1,28 +1,32 @@
 * {
     box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
-
+:root {
+    --primary-color-1: #ffffff; /* Default colors */
+    --primary-color-2: #ffffff;
+    --primary-color-3: #ffffff;
+}
 .delete-confirmation {
     text-align: center;
 
     padding: 0.5rem;
-    background-color: #2c3344; /* Primary color */
+    background-color: var(--primary-color-1); /* Primary color */
     border-radius: 8px; /* Rounded corners */
     max-width: 300px; /* Restrict the width */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    box-shadow: 0 4px 10px var(--primary-color-1)(0, 0, 0, 0.2); /* Subtle shadow for depth */
 }
 
 .delete-confirmation h3 {
-    color: white;
+    color: var(--primary-color-3); 
     font-size: 1.25rem;
     margin-bottom: 1rem;
 }
 
 .delete-actions {
-    background: #ffffff; /* White background for contrast */
+    background: var(--primary-color-3);  /* White background for contrast */
     border-radius: 8px;
     padding: 2rem; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    box-shadow: 0 2px 5px var(--primary-color-1)(0, 0, 0, 0.1); /* Light shadow for depth */
     display: flex;
     justify-content: space-between; /* Space between buttons */
     align-items: center;
@@ -39,19 +43,19 @@
 }
 
 .delete-actions .cancel-btn {
-    background-color: #f8f9fa; /* Light color for cancel button */
-    color: #495057; /* Dark text for contrast */
+    background-color: var(--primary-color-3);  /* Light color for cancel button */
+    color: var(--primary-color-2);  /* Dark text for contrast */
 }
 
 .delete-actions .cancel-btn:hover {
-    background-color: #e2e6ea; /* Slightly darker shade on hover */
+    background-color: var(--primary-color-3);  /* Slightly darker shade on hover */
 }
 
 .delete-actions .delete-btn {
-    background-color: #818cf8; /* Primary color for delete button */
-    color: white; /* White text for delete button */
+    background-color: var(--primary-color-2);  /* Primary color for delete button */
+    color: var(--primary-color-3);  /* White text for delete button */
 }
 
 .delete-actions .delete-btn:hover {
-    background-color: #6c7cde; /* Darker shade on hover */
+    background-color: var(--primary-color-2); /* Darker shade on hover */
 }

@@ -1,0 +1,82 @@
+<div class="container-fluid page">
+    <div class="page__box p-3 mt-2">Notification Settings</div>
+    <div class="page__content shadow p-3 position-relative">
+        <div class="page__content __data position-absolute text-center">
+            <div>
+               
+            <mat-tab-group animationDuration="500ms">
+                <mat-tab label="Individual Notifications">
+
+                <table mat-table  [dataSource]="users" class="mat-elevation-z8">
+            
+                    <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef> ID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                    </ng-container>      
+                    
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef> Email </th>
+                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                    </ng-container>  
+
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef> Description </th>
+                        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                    </ng-container>  
+
+                                             <!-- Actions Column -->
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>  </th>
+                        <td mat-cell *matCellDef="let role" class="align-right">
+                            <button mat-icon-button (click)="openCreateNotificationDialog()" aria-label="Add" matTooltip="Subscribe"><mat-icon>add</mat-icon></button>
+                            <button mat-icon-button (click)="openEditNotificationDialog()" aria-label="Edit" matTooltip="Edit"><mat-icon>edit</mat-icon></button>
+                            <button mat-icon-button (click)="openDeleteNotificationDialog()" aria-label="Delete" matTooltip="Unsubscribe"><mat-icon>delete</mat-icon></button>                        
+                        </td>
+                    </ng-container> 
+
+                    <tr mat-header-row *matHeaderRowDef="usernotificationreportcolumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: usernotificationreportcolumns;"></tr> 
+                    
+                </table>            
+                </mat-tab>
+
+                <mat-tab label="Group Notifications">
+
+                    <table mat-table [dataSource]="groups"  class="mat-elevation-z8">
+                
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef> ID </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id2}} </td>
+                            </ng-container>      
+                            
+                            <ng-container matColumnDef="email">
+                                <th mat-header-cell *matHeaderCellDef> Email </th>
+                                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                            </ng-container>  
+        
+                            <ng-container matColumnDef="description">
+                                <th mat-header-cell *matHeaderCellDef> Description </th>
+                                <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                            </ng-container>  
+
+                               
+                            <ng-container matColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef>  </th>
+                                <td mat-cell *matCellDef="let role" class="align-right">
+                                    <button mat-icon-button (click)="openCreateNotificationDialog()" aria-label="Add" matTooltip="Subscribe"><mat-icon>add</mat-icon></button>
+                                    <button mat-icon-button (click)="openEditNotificationDialog()" aria-label="Edit" matTooltip="Edit"><mat-icon>edit</mat-icon></button>
+                                    <button mat-icon-button (click)="openDeleteNotificationDialog()" aria-label="Delete" matTooltip="Unsubscribe"><mat-icon>delete</mat-icon></button>                        
+                                </td>
+                            </ng-container>   
+                
+                        <tr mat-header-row *matHeaderRowDef="groupnotificationreportcolumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: groupnotificationreportcolumns;"></tr> 
+                        
+                    </table>            
+                </mat-tab>             
+            </mat-tab-group>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -46,6 +46,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // Unsubscribe when the component is destroyed to avoid memory leaks
     if (this.emailSubscription) {
       this.emailSubscription.unsubscribe();
+      
     }
   }
 

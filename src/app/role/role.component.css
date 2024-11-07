@@ -1,1 +1,91 @@
-@import "../home/home.component.css";
+
+:root {
+    --primary-color-1: #ffffff; /* Default colors */
+    --primary-color-2: #ffffff;
+    --primary-color-3: #ffffff;
+}
+.page {
+    color: var(--primary-color-3);
+    padding: 0 1rem;
+    background: var(--primary-color-3);
+    
+    .page__box {
+
+        background: var(--primary-color-1);
+        margin: 0 -1rem;
+        font-size: 25px;
+    }
+    
+    .page__content {
+        min-height: calc(100vh - 120px); /* Adjust height to show more table */
+        border-radius: 10px;
+        margin-top: -1rem; /* Reduce margin to bring content up */
+        background: var(--primary-color-3);
+        color: var(--primary-color-1);
+        font-size: 2rem;
+        position: relative;
+        
+        &.__data {
+            top: 3%; /* Adjust position upwards */
+            left: 3%;
+            transform: none;
+            color: var(--primary-color-1);
+            min-height: 120px;
+            position: relative;
+            text-align: left;
+            width: 94%;
+        }
+    }    
+}
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Space between fields */
+    margin-bottom: 20px; /* Space below the filters */
+}
+        /* Align buttons in the actions column */
+.mat-cell {
+    display: flex;
+    align-items: center; /* Vertically center align */
+}
+
+        /* Style for the buttons */
+button {
+    margin-right: 8px; /* Add space between buttons */
+    border: none;
+    background-color: transparent;
+}
+
+button:last-child {
+    margin-right: 0; /* Remove margin from the last button */
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-start; /* Aligns the button to the left */
+    
+    
+}
+        
+.button-container button {           
+    padding: 0.25rem; 
+    font-size: 0.875rem
+}
+
+.search-field-container {
+    margin-left: auto; /* Pushes the search field to the right */   
+    height: 20px;
+    margin-bottom: 2rem; /* Space between the button and the table */
+    
+}
+.mat-mdc-header-row{
+   
+    font-weight: bold;
+    color: var(--primary-color-2);
+    background-color: var(--primary-color-3);
+
+}
+.align-right{
+    text-align: right;
+}
+

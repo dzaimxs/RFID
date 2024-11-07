@@ -13,6 +13,10 @@ import { UserUpdateDialogComponent } from '../user-update-dialog/user-update-dia
 import { UserDeleteDialogComponent } from '../user-delete-dialog/user-delete-dialog.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
+import { ResetPasswordDialogComponent } from '../reset-password-dialog/reset-password-dialog.component';
+import { UnlockAccountDialogComponent } from '../unlock-account-dialog/unlock-account-dialog.component';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 
 interface UserModel{
   idusers: number;
@@ -28,13 +32,15 @@ interface UserModel{
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [MatTableModule, HttpClientModule,MatTableModule,FormsModule,MatFormFieldModule,NgIf,UserCreateDialogComponent,MatPaginatorModule,MatPaginator,MatInputModule],
+  imports: [MatTableModule, MatIcon, MatTooltip,HttpClientModule,MatTableModule,FormsModule,MatFormFieldModule,NgIf,UserCreateDialogComponent,MatPaginatorModule,MatPaginator,MatInputModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
 export class UserComponent implements OnInit{
 
   users: MatTableDataSource<UserModel> = new MatTableDataSource<UserModel>([]);
+
+  isInputVisible: boolean = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator; // For pagination
 
@@ -123,27 +129,17 @@ export class UserComponent implements OnInit{
     );
   }
 
-  enableUser(id: number): void {
-    this.http.put(`http://localhost:5016/api/User/enable/${id}`, {}).subscribe(
-        () => {
-            this.loadUsers(); // Refresh the list after enabling the user
-        },
-        error => {
-            console.error('Error enabling user', error);
-        }
-    );
-}
+  toggleStatus(user: UserModel): void {
 
-disableUser(id: number): void {
-    this.http.put(`http://localhost:5016/api/User/disable/${id}`, {}).subscribe(
+    this.http.put(`http://localhost:5016/api/User/toggleStatus/${user.idusers}`, {}).subscribe(
         () => {
-            this.loadUsers(); // Refresh the list after disabling the user
+            this.loadUsers();
         },
         error => {
-            console.error('Error disabling user', error);
+            console.error(`Error toggling user`, error);
         }
     );
-}
+  }
 
 
   applySearch(event: Event): void {
@@ -159,6 +155,52 @@ disableUser(id: number): void {
   
     this.users.filter = filterValue.trim().toLowerCase();
   }
+
+
+  openResetPasswordDialog(): void {
+    const dialogRef = this.dialog.open(ResetPasswordDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.resetPassword(result.email);//this.resetPassword(result.email, result.password);
+    }
+    });
+  }
+  resetPassword(email: string): void {
+    this.http.put(`http://localhost:5016/api/User/resetpassword/${email}`, {}).subscribe(
+      //this.http.put(`http://localhost:5016/api/User/resetpassword/${email}/${password}`, {}).subscribe(
+      response => {
+        console.log('Password reset completed');
+      },
+      error => {
+        console.error('Error resetting password', error);
+      }
+    );
+  }
+
+  openUnlockAccountDialog(): void {
+    const dialogRef = this.dialog.open(UnlockAccountDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.unlockUser(result.email);
+    }
+    });
+  }
+  unlockUser(email: string): void {
+    this.http.put(`http://localhost:5016/api/User/unlock/${email}`, {}).subscribe(
+    
+      response => {
+        console.log('Account reactivated');
+      },
+      error => {
+        console.error('Error occured while trying to unlock the account', error);
+      }
+    );
+  }
+
+
+
 
 };
 

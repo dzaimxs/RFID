@@ -1,0 +1,20 @@
+<div class="create-user" style="border-radius: 1px;">
+    <h3>Unlock Account</h3>
+        <div class="device-form-container">
+            <form class="create-device" (ngSubmit)="onSubmit()">
+
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" [(ngModel)]="user.email" name="email" required>
+            </mat-form-field>
+
+            <!--<mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input matInput [(ngModel)]="user.password" name="password" required>
+            </mat-form-field>-->
+
+            <button mat-raised-button class="button" color="primary" type="submit">Submit</button>
+            </form>
+    
+        </div>   
+</div>

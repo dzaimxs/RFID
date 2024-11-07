@@ -1,31 +1,39 @@
-.page{
-    color: white;
+
+:root {
+    --primary-color-1: #ffffff; /* Default colors */
+    --primary-color-2: #ffffff;
+    --primary-color-3: #ffffff;
+}
+.page {
+    color: var(--primary-color-3);
     padding: 0 1rem;
-    background: #f1f5f9;
-    .page__box{
-        min-height: 120px;
-        background:  #1e293b;
+    background: var(--primary-color-3);
+    
+    .page__box {
+
+        background: var(--primary-color-1);
         margin: 0 -1rem;
-        font-size: 36px;
+        font-size: 25px;
     }
-    .page__content{
-        min-height: calc(100vh - 178px);
+    
+    .page__content {
+        min-height: calc(100vh - 120px); /* Adjust height to show more table */
         border-radius: 10px;
-        margin-top: -2rem;
-        background: white;
-        color: black;
+        margin-top: -1rem; /* Reduce margin to bring content up */
+        background: var(--primary-color-3);
+        color: var(--primary-color-1);
         font-size: 2rem;
-        position:relative;
-        &.__data{
-            top: 10%;
+        position: relative;
+        
+        &.__data {
+            top: 3%; /* Adjust position upwards */
             left: 3%;
             transform: none;
-            color: black;
+            color: var(--primary-color-1);
             min-height: 120px;
             position: relative;
             text-align: left;
             width: 94%;
-        
         }
     }    
 }
@@ -44,6 +52,8 @@
         /* Style for the buttons */
 button {
     margin-right: 8px; /* Add space between buttons */
+    border: none;
+    background-color: transparent;
 }
 
 button:last-child {
@@ -53,7 +63,8 @@ button:last-child {
 .button-container {
     display: flex;
     justify-content: flex-start; /* Aligns the button to the left */
-    margin-bottom: 1rem; /* Space between the button and the table */
+    
+    
 }
         
 .button-container button {           
@@ -66,5 +77,15 @@ button:last-child {
     height: 20px;
     margin-bottom: 2rem; /* Space between the button and the table */
     
+}
+.mat-mdc-header-row{
+   
+    font-weight: bold;
+    color: var(--primary-color-2);
+    background-color: var(--primary-color-3);
+
+}
+.align-right{
+    text-align: right;
 }
 

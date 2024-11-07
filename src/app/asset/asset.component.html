@@ -4,18 +4,21 @@
         <div class="page__content __data position-absolute text-center">       
       
           <div class="button-container">
-            <button mat-raised-button color="primary" (click)="openCreateAssetDialog()">Add Asset</button>
             
-            <button mat-raised-button color="accent" (click)="triggerFileInput()">Import CSV</button>
+
+            <button mat-icon-button (click)="triggerFileInput()" *ngIf="shouldShowActions()" aria-label="Import CSV" matTooltip="Import CSV"><mat-icon>file_upload</mat-icon></button>
             <input #csvFileInput type="file" (change)="onFileChange($event)" accept=".csv" style="display: none" />
             
                 <!-- Search input for global search -->
                 <div class="search-field-container">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Search</mat-label>
-                    <input matInput (keyup)="applySearch($event)" placeholder="Search" />
+                  <button mat-icon-button (click)="isInputVisible = !isInputVisible" aria-label="Search" matTooltip="Search">
+                      <mat-icon>search </mat-icon>
+                  </button>
+                  <mat-form-field appearance="fill" *ngIf="isInputVisible">
+                      <mat-label>Search</mat-label>
+                      <input matInput (keyup)="applySearch($event)" placeholder="Search" />
                   </mat-form-field>
-                </div>                 
+              </div>                
           </div>  
         
           <table mat-table [dataSource]="assets" matSort class="mat-elevation-z8">
@@ -36,6 +39,11 @@
                   <th mat-header-cell *matHeaderCellDef> Asset Type </th>
                   <td mat-cell *matCellDef="let asset">{{ asset.itemtypename }}</td>
                 </ng-container>
+
+                <ng-container matColumnDef="categoryname">
+                  <th mat-header-cell *matHeaderCellDef> Asset Category </th>
+                  <td mat-cell *matCellDef="let asset">{{ asset.categoryname }}</td>
+                </ng-container>
             
                 <!-- Column -->
                 <ng-container matColumnDef="dateadded">
@@ -50,18 +58,23 @@
                 </ng-container>
             
                 <!-- Actions Column -->
-                <ng-container matColumnDef="actions">
-                  <th mat-header-cell *matHeaderCellDef> Actions </th>
-                  <td mat-cell *matCellDef="let asset">
-                      <button mat-button (click)="openEditAssetDialog(asset)">Edit</button>
-                      <button mat-button color="warn" (click)="openDeleteAssetDialog(asset.idassets) ">Delete</button>
-                      <button mat-button (click)="enableAsset(asset.idassets)">Enable</button>
-                      <button mat-button (click)="disableAsset(asset.idassets)">Disable</button>
+                <ng-container matColumnDef="actions" *ngIf="shouldShowActions()">
+                  <th mat-header-cell *matHeaderCellDef>  </th>
+                  <td mat-cell *matCellDef="let asset" class="align-right">
+                    <button mat-icon-button (click)="openCreateAssetDialog()" *ngIf="shouldShowActions()" aria-label="Add" matTooltip="Add"><mat-icon>add</mat-icon></button>
+                      <button mat-icon-button (click)="openEditAssetDialog(asset)" aria-label="Edit" matTooltip="Edit"><mat-icon>edit</mat-icon></button>
+                      <button mat-icon-button  (click)="openDeleteAssetDialog(asset.idassets)" aria-label="Delete" matTooltip="Delete"><mat-icon>delete</mat-icon></button>
+                      <!--<button mat-button (click)="toggleStatus(asset)">-->
+                        <button mat-icon-button (click)="asset.status === 'Enabled' ? openDisableAssetDialog(asset.idassets) : enableAsset(asset.idassets)" aria-label="Toggle Status" matTooltip="{{ asset.status === 'Enabled' ? 'Disable ' : 'Enable ' }}">
+                          <mat-icon>{{ asset.status === 'Enabled' ? 'block' : 'check_circle' }}</mat-icon>
+                      </button>
+
+
                   </td>
               </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="['rfidserialnr', 'itemtypename', 'dateadded', 'status','actions']"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['rfidserialnr', 'itemtypename', 'dateadded', 'status','actions'];"></tr>
+              <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+              <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
               </table>
                 <!-- Pagination -->
                 <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25]" aria-label="Select page">

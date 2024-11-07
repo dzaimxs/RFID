@@ -3,10 +3,14 @@
     flex-direction: column;
     height: 100%;
 }
-
+:root {
+    --primary-color-1: #ffffff; /* Default colors */
+    --primary-color-2: #ffffff;
+    --primary-color-3: #ffffff;
+}
 mat-drawer{
-    width: 260px;
-    background: #0f172a;
+    width: 240px;
+    background: var(--primary-color-1);
 }
 
 mat-drawer-container{

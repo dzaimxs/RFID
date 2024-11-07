@@ -1,0 +1,21 @@
+<div class="create-user" style="border-radius: 1px;">
+    <h3>New Role</h3>
+        <div class="device-form-container">
+            <form class="create-device" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" [(ngModel)]="user.email" name="email" required>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Role</mat-label>
+                <mat-select [(ngModel)]="user.idroles" name="idroles" required>
+                  <mat-option *ngFor="let role of userRoles" [value]="role.id">
+                    {{ role.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            <button mat-raised-button class="button" color="primary" type="submit">Submit</button>
+            </form>
+    
+        </div>   
+    </div>

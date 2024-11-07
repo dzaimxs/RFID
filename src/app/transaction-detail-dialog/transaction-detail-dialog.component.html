@@ -1,0 +1,33 @@
+<div class="create-user" style="border-radius: 1px;">
+    <div class="header-container">
+        <h3 style="display: inline-block; margin-right: 8px;">Transaction History</h3>
+        <mat-icon (click)="closeDialog()" >close</mat-icon>
+    </div>
+    <div class="device-form-container">
+        <form class="create-device">
+
+            <mat-dialog-content >
+                <table mat-table [dataSource]="data.subTransactions" class="mat-elevation-z8">
+                    <ng-container matColumnDef="transactiondatetime">
+                        <th mat-header-cell *matHeaderCellDef> DateTime </th>
+                        <td mat-cell *matCellDef="let subTransaction">{{ subTransaction.transactiondatetime }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fromlocation">
+                        <th mat-header-cell *matHeaderCellDef> From Location </th>
+                        <td mat-cell *matCellDef="let subTransaction">{{ subTransaction.fromlocation }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="newlocation">
+                        <th mat-header-cell *matHeaderCellDef> New Location </th>
+                        <td mat-cell *matCellDef="let subTransaction">{{ subTransaction.newlocation }}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="['transactiondatetime', 'fromlocation', 'newlocation']"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['transactiondatetime', 'fromlocation', 'newlocation'];"></tr>
+                </table>
+            </mat-dialog-content>
+
+        </form>
+    </div>
+</div>

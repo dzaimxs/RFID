@@ -1,0 +1,33 @@
+<div class="container-fluid page">
+    <div class="page__box p-3 mt-2">Home</div>
+    <div class="page__content shadow p-3 position-relative">
+        <div class="page__content __data position-absolute text-center">
+            <div>
+                <!-- Filters -->
+                <div class="filter-container">
+ 
+                <table mat-table class="mat-elevation-z8">                
+
+                  <ng-container matColumnDef="transactiondatetime">
+                      <th mat-header-cell *matHeaderCellDef> DateTime </th>
+                      <td mat-cell *matCellDef="let transaction">{{ transaction.transactiondatetime }}</td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="fromloction">
+                      <th mat-header-cell *matHeaderCellDef> From Location </th>
+                      <td mat-cell *matCellDef="let transaction">{{ transaction.fromloction }}</td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="newlocation">
+                      <th mat-header-cell *matHeaderCellDef> New Location </th>
+                      <td mat-cell *matCellDef="let transaction">{{ transaction.newlocation }}</td>
+                  </ng-container>              
+                  <tr mat-header-row *matHeaderRowDef="['transactiondatetime', 'fromloction', 'newlocation']"></tr>
+                  <tr mat-row *matRowDef="let row; columns: ['transactiondatetime', 'fromloction', 'newlocation'];"></tr>        
+            
+              </table>
+  
+            </div>
+        </div>
+    </div>
+  </div>

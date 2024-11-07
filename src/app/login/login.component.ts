@@ -14,9 +14,15 @@ import { AuthService } from '../auth-service.service';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 
+import { SetNewPasswordDialogComponent } from '../set-new-password-dialog/set-new-password-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+
 interface LoginResponse {
   token: string;
   email: string;  
+  role:string;
+  requiresPasswordReset?: boolean;
 }
 
 @Component({
@@ -40,28 +46,45 @@ export class LoginComponent {
       this.isPasswordVisible = !this.isPasswordVisible;
     }
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService){}
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService,private dialog: MatDialog){}
   
   onLogin() {
-    this.http.post<LoginResponse>('http://localhost:5016/api/Login/login', this.loginObj).subscribe(
-      (response) => {
-        console.log('API Response:', response);
-
-        if (response && response.token && response.email) {
-          // Store the token and email using AuthService
-          this.authService.login(response.token, response.email);
-          // Redirect to the home page
-          this.router.navigate(['home']);
-        } else {
-          alert('Login failed, please try again.');
-        }
-      },
-      (error) => {
-        console.error('Login error:', error);
-        alert(error.error.message || 'An unknown error occurred');
-      }
-    );
+      this.http.post<LoginResponse>('http://localhost:5016/api/Login/login', this.loginObj).subscribe(
+          (response) => {
+              console.log('API Response:', response); // Log the response
+              if (response && response.email) {
+                  // Check if password reset is required
+                  if (response.requiresPasswordReset) {
+                      this.promptNewPassword(response.email);
+                  } else {
+                      this.authService.login(response.token, response.email,response.role);
+                      this.router.navigate(['home']);
+                  }
+              } else {
+                  console.log('Invalid login response:', response); // Log invalid response
+                  alert('Login failed, please try again.');
+              }
+          },
+          (error) => {
+            console.error('Login error:', error);
+            const errorMessage = error.error?.message || 'An unknown error occurred';
+            alert(errorMessage);
+          }
+      );
   }
+    promptNewPassword(email: string): void {
+      const dialogRef = this.dialog.open(SetNewPasswordDialogComponent, {
+        width: '400px',
+        data: { email: email }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          console.log('Password set successfully');
+          // Handle successful password reset
+        }
+      });
+    }
 
   
 } 

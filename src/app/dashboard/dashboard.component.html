@@ -1,9 +1,318 @@
 <div class="container-fluid page">
-    <div class="page__box p-3 mt-2">Reports</div>
+    <div class="page__box p-3 mt-2">Reporting</div>
     <div class="page__content shadow p-3 position-relative">
         <div class="page__content __data position-absolute text-center">
-        Reports Go Here
+            <div>
+               
+            <mat-tab-group animationDuration="500ms">
+                <mat-tab label="Asset Report">
+        
+                <div class="filter-container">
+                    <div class="clear-filters-container">
+                        <button mat-button class="clear-filters-button" (click)="clearAssetFilters()">Clear All Filters</button>
+                </div>
+              
+                <div class="icons-container">
+
+                </div>
+                    <div class="search-field-container">
+                        <button mat-icon-button class="icon-button"  (click)="onExportAssets()" matTooltip="Export to Excel"><mat-icon>file_download</mat-icon></button>
+
+                    </div>
+                </div>
+                
+                <table mat-table [dataSource]="filteredAssets" class="mat-elevation-z8">
+            
+                    <ng-container matColumnDef="idassettransactions">
+                    <th mat-header-cell *matHeaderCellDef> TransactionID </th>
+                    <td mat-cell *matCellDef="let element"> {{element.idassettransactions}} </td>
+                    </ng-container>                
+
+                    <ng-container matColumnDef="rfidserialnr">
+                    <th mat-header-cell *matHeaderCellDef> SerialNr </th>
+                    <td mat-cell *matCellDef="let element"> {{element.rfidserialnr}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="transactiondatetime">
+                        <th mat-header-cell *matHeaderCellDef> Transaction DateTime
+                            <button mat-icon-button [matMenuTriggerFor]="dateDropdown">
+                                <mat-icon>filter_list</mat-icon>
+                            </button>
+                            <mat-menu #dateDropdown="matMenu">
+                                <div class="date-filter-menu">
+                                    <mat-form-field>
+                                        <input matInput [matDatepicker]="picker1" placeholder="Start Date" [(ngModel)]="startDate" (dateChange)="applyAssetFilters()">
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
+                                        
+                                    </mat-form-field>
+                                    
+                                    <mat-form-field>
+                                        <input matInput [matDatepicker]="picker2" placeholder="End Date" [(ngModel)]="endDate" (dateChange)="applyAssetFilters()">
+                                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                    </mat-form-field>
+
+                                </div>
+                            </mat-menu>
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.transactiondatetime}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="itemtypename">
+                        <th mat-header-cell *matHeaderCellDef> Type
+                            <button mat-icon-button  [matMenuTriggerFor]="itemTypeDropdown">
+                                <mat-icon>filter_list</mat-icon>
+                            </button>
+                            <mat-menu #itemTypeDropdown="matMenu">
+                                <button mat-menu-item *ngFor="let type of uniqueItemTypes">
+                                    <mat-checkbox [(ngModel)]="filters.itemType[type]" (change)="applyAssetFilters()">{{ type }}</mat-checkbox>
+                                </button>
+                            </mat-menu>
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.itemtypename}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="categoryname">
+                        <th mat-header-cell *matHeaderCellDef> Category
+                            <button mat-icon-button [matMenuTriggerFor]="categoryDropdown">
+                                <mat-icon>filter_list</mat-icon>
+                            </button>
+                            <mat-menu #categoryDropdown="matMenu">
+                                <button mat-menu-item *ngFor="let category of uniqueCategories">
+                                    <mat-checkbox [(ngModel)]="filters.category[category]" (change)="applyAssetFilters()">{{ category }}</mat-checkbox>
+                                </button>
+                            </mat-menu>
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.categoryname}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="locationname">
+                        <th mat-header-cell *matHeaderCellDef> Location
+                            <button mat-icon-button [matMenuTriggerFor]="locationDropdown">
+                                <mat-icon>filter_list</mat-icon>
+                            </button>
+                            <mat-menu #locationDropdown="matMenu">
+                                <button mat-menu-item *ngFor="let location of uniqueLocations">
+                                    <mat-checkbox [(ngModel)]="filters.location[location]" (change)="applyAssetFilters()">{{ location }}</mat-checkbox>
+                                </button>
+                            </mat-menu>
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.locationname}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="dateadded">
+                        <th mat-header-cell *matHeaderCellDef> Date Added </th>
+                        <td mat-cell *matCellDef="let element"> {{element.dateadded}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef> Status
+                            <button mat-icon-button [matMenuTriggerFor]="statusDropdown">
+                                <mat-icon>filter_list</mat-icon>
+                            </button>
+                            <mat-menu #statusDropdown="matMenu">
+                                <button mat-menu-item *ngFor="let status of uniqueStatuses">
+                                    <mat-checkbox [(ngModel)]="filters.status[status]" (change)="applyAssetFilters()">{{ status }}</mat-checkbox>
+                                </button>
+                            </mat-menu>
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                    </ng-container>
+            
+                    <tr mat-header-row *matHeaderRowDef="assetreportcolumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: assetreportcolumns;"></tr> 
+                    
+                </table>      
+                   
+                </mat-tab>
+
+                <mat-tab label="Device Report">
+     
+                <div class="filter-container">
+                    <div class="clear-filters-container">
+                        <button mat-button class="clear-filters-button" (click)="clearDeviceFilters()">Clear All Filters</button>
+                </div>
+
+                <div class="icons-container">
+
+                </div>
+                    <div class="search-field-container">
+                        <button mat-icon-button class="icon-button"  (click)="onExportDevices()" matTooltip="Export to Excel"><mat-icon>file_download</mat-icon></button>
+
+                    </div>
+                </div>
+                <table mat-table [dataSource]="filteredDevices" class="mat-elevation-z8">
+            
+                    <ng-container matColumnDef="devicename">
+                        <th mat-header-cell *matHeaderCellDef> Device
+                            <button mat-icon-button [matMenuTriggerFor]="devnameDropdown">
+                                <mat-icon>filter_list</mat-icon>
+                            </button>
+                            <mat-menu #devnameDropdown="matMenu">
+                                <button mat-menu-item *ngFor="let devicename of uniqueDeviceName">
+                                    <mat-checkbox [(ngModel)]="filters.devName[devicename]" (change)="applyDeviceFilter()">{{ devicename }}</mat-checkbox>
+                                </button>
+                            </mat-menu>
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.devicename}} </td>
+                    </ng-container>                     
+
+
+
+                    <ng-container matColumnDef="ipaddress">
+                    <th mat-header-cell *matHeaderCellDef> IP </th>
+                    <td mat-cell *matCellDef="let element"> {{element.ipaddress}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="designatedaddress">
+                        <th mat-header-cell *matHeaderCellDef> Designated Address </th>
+                        <td mat-cell *matCellDef="let element"> {{element.designatedaddress}} </td>
+                    </ng-container>
+                
+                    <ng-container matColumnDef="lastconnectiondatetime">
+                        <th mat-header-cell *matHeaderCellDef> Last Connection DateTime
+                            <button mat-icon-button [matMenuTriggerFor]="devicedateDropdown">
+                                <mat-icon>filter_list</mat-icon>
+                            </button>
+                            <mat-menu #devicedateDropdown="matMenu">
+                                <div class="date-filter-menu">
+                                    <mat-form-field>
+                                        <input matInput [matDatepicker]="picker1" placeholder="Start Date" [(ngModel)]="startDate" (dateChange)="applyDeviceFilter()">
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
+                                    </mat-form-field>
+                                    
+                                    <mat-form-field>
+                                        <input matInput [matDatepicker]="picker2" placeholder="End Date" [(ngModel)]="endDate" (dateChange)="applyDeviceFilter()">
+                                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                    </mat-form-field>
+
+                                </div>
+                            </mat-menu>
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.lastconnectiondatetime}} </td>
+                    </ng-container>
+
+
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef> Status
+                            <button mat-icon-button [matMenuTriggerFor]="dstatusDropdown">
+                                <mat-icon>filter_list</mat-icon>
+                            </button>
+                            <mat-menu #dstatusDropdown="matMenu">
+                                <button mat-menu-item *ngFor="let status of uniqueDeviceStatus">
+                                    <mat-checkbox [(ngModel)]="filters.devStatus[status]" (change)="applyDeviceFilter()">{{ status }}</mat-checkbox>
+                                </button>
+                            </mat-menu>
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                    </ng-container>  
+
+                    <tr mat-header-row *matHeaderRowDef="devicereportcolumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: devicereportcolumns;"></tr>
+                </table>
+                </mat-tab>
+            
+                <mat-tab label="Historical Asset Movement Report">
+                    <div class="filter-container">
+                        <div class="clear-filters-container">
+                            <button mat-button class="clear-filters-button" (click)="clearHistoryFilters()">Clear All Filters</button>
+                    </div>
+    
+                    <div class="icons-container">
+    
+                    </div>
+                        <div class="search-field-container">
+                            <button mat-icon-button class="icon-button"  (click)="onExportHistoricalTransactions()" matTooltip="Export to Excel"><mat-icon>file_download</mat-icon></button>
+    
+                        </div>
+                    </div>
+              
+                <table mat-table [dataSource]="filteredHistory" class="mat-elevation-z8">
+            
+                    <ng-container matColumnDef="transactiondatetime">
+                        <th mat-header-cell *matHeaderCellDef> Transaction Date
+                            <button mat-icon-button [matMenuTriggerFor]="assetdateDropdown">
+                                <mat-icon>filter_list</mat-icon>
+                            </button>
+                            <mat-menu #assetdateDropdown="matMenu">
+                                <div class="date-filter-menu">
+                                    <mat-form-field>
+                                        <input matInput [matDatepicker]="picker1" placeholder="Start Date" [(ngModel)]="startDate" (dateChange)="applyHistoryFilter()">
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
+                                    </mat-form-field>
+                                    
+                                    <mat-form-field>
+                                        <input matInput [matDatepicker]="picker2" placeholder="End Date" [(ngModel)]="endDate" (dateChange)="applyHistoryFilter()">
+                                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                    </mat-form-field>
+
+                                </div>
+                            </mat-menu>
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.transactiondatetime}} </td>
+                    </ng-container>
+            
+ 
+                    <ng-container matColumnDef="rfidserialnr">
+                        <th mat-header-cell *matHeaderCellDef> SerialNr
+                            <button mat-icon-button [matMenuTriggerFor]="serialDropdown">
+                                <mat-icon>filter_list</mat-icon>
+                            </button>
+                            <mat-menu #serialDropdown="matMenu">
+                                <button mat-menu-item *ngFor="let rfidserialnr of uniqueSerialNr">
+                                    <mat-checkbox [(ngModel)]="filters.serialnr[rfidserialnr]" (change)="applyHistoryFilter()">
+                                        {{ rfidserialnr }}
+                                    </mat-checkbox>
+                                </button>
+                            </mat-menu>
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.rfidserialnr}} </td>
+                    </ng-container>  
+
+                    <ng-container matColumnDef="fromlocation">
+                        <th mat-header-cell *matHeaderCellDef> From Location
+                            <button mat-icon-button [matMenuTriggerFor]="fromLocationDropdown">
+                                <mat-icon>filter_list</mat-icon>
+                            </button>
+                            <mat-menu #fromLocationDropdown="matMenu">
+                                <button mat-menu-item *ngFor="let fromlocation of uniqueFromLocation">
+                                    <mat-checkbox [(ngModel)]="filters.flocation[fromlocation]" (change)="applyHistoryFilter()">{{ fromlocation }}</mat-checkbox>
+                                </button>
+                            </mat-menu>
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.fromlocation}} </td>
+                    </ng-container>  
+
+                    <ng-container matColumnDef="newlocation">
+                        <th mat-header-cell *matHeaderCellDef> New Location
+                            <button mat-icon-button [matMenuTriggerFor]="newLocationDropdown">
+                                <mat-icon>filter_list</mat-icon>
+                            </button>
+                            <mat-menu #newLocationDropdown="matMenu">
+                                <button mat-menu-item *ngFor="let newlocation of uniqueNewLocation">
+                                    <mat-checkbox [(ngModel)]="filters.nlocation[newlocation]" (change)="applyHistoryFilter()">{{ newlocation }}</mat-checkbox>
+                                </button>
+                            </mat-menu>
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.newlocation}} </td>
+                    </ng-container> 
+
+
+                    <tr mat-header-row *matHeaderRowDef="historicalreportcolumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: historicalreportcolumns;"></tr>
+                </table>
+
+                </mat-tab>
+            </mat-tab-group>
+  
+
+            </div>
         </div>
     </div>
 </div>
-

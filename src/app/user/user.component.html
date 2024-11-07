@@ -3,13 +3,18 @@
     <div class="page__content shadow p-3 position-relative">
       <div class="page__content __data position-absolute text-center">
         <div class="button-container">
-        <button mat-raised-button color="primary" (click)="openCreateUserDialog()">Add User</button>
+
+        <button mat-icon-button (click)="openResetPasswordDialog()"aria-label="Reset" matTooltip="Reset"><mat-icon>lock_reset</mat-icon></button>
+        <button mat-icon-button  (click)="openUnlockAccountDialog()" aria-label="Unlock" matTooltip="Unlock"><mat-icon>lock_open</mat-icon></button>
                  <!-- Search input for global search -->
         <div class="search-field-container">
-          <mat-form-field appearance="outline">
-              <mat-label>Search</mat-label>
-              <input matInput  (keyup)="applySearch($event)" placeholder="Search" />
-          </mat-form-field>
+          <button mat-icon-button (click)="isInputVisible = !isInputVisible" aria-label="Search" matTooltip="Search">
+            <mat-icon>search</mat-icon>
+        </button>
+        <mat-form-field appearance="fill" *ngIf="isInputVisible">
+            <mat-label>Search</mat-label>
+            <input matInput (keyup)="applySearch($event)" placeholder="Search" />
+        </mat-form-field>
         </div>  
       </div>
         <table mat-table [dataSource]="users" class="mat-elevation-z8">
@@ -48,12 +53,15 @@
 
                  <!-- Actions Column -->
                  <ng-container matColumnDef="actions">
-                  <th mat-header-cell *matHeaderCellDef> Actions </th>
-                  <td mat-cell *matCellDef="let user">
-                      <button mat-button (click)="openEditUserDialog(user)">Edit</button>
-                      <button mat-button color="warn" (click)="openDeleteUserDialog(user.idusers)">Delete</button>
-                      <button mat-button (click)="enableUser(user.idusers)">Enable</button>
-                      <button mat-button (click)="disableUser(user.idusers)">Disable</button>
+                  <th mat-header-cell *matHeaderCellDef>  </th>
+                  <td mat-cell *matCellDef="let user" class="align-right">
+
+                      <button mat-icon-button (click)="openCreateUserDialog()" aria-label="Add" matTooltip="Add"><mat-icon>add</mat-icon></button>
+                      <button mat-icon-button (click)="openEditUserDialog(user)" aria-label="Edit" matTooltip="Edit"><mat-icon>edit</mat-icon></button>
+                      <button mat-icon-button (click)="openDeleteUserDialog(user.idusers)" aria-label="Delete" matTooltip="Delete"><mat-icon>delete</mat-icon></button>  
+                    <button mat-icon-button (click)="toggleStatus(user)" aria-label="Toggle Status" matTooltip="{{ user.status === 'Enabled' ? 'Disable' : 'Enable' }}">
+                      <mat-icon>{{ user.status === 'Enabled' ? 'block' : 'check_circle' }}</mat-icon>
+                  </button>
                   </td>
           </ng-container>                     
 

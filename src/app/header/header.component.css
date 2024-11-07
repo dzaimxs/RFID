@@ -1,9 +1,29 @@
+
+:root {
+    --primary-color-1: #ffffff; /* Default colors */
+    --primary-color-2: #ffffff;
+    --primary-color-3: #ffffff;
+}
+
 .mat-toolbar{
     position:  sticky;
     top: 0;
     z-index: 100;
-    background: #f7f7f7;
+    background: var(--primary-color-3);
+    padding: 0;
+    min-height: 25px; /* Set a minimum height */
+    height: 25px;
+    line-height: 50px; /* Vertically center text */
+    align-items: center;
+    margin-top: 0.5rem;
+    
 
+}
+
+.mat-toolbar-row {
+    height: 100%; /* Ensure the row fills the toolbar */
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
 }
 ul{
     li{
